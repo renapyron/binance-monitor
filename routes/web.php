@@ -19,6 +19,7 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'balances'], function() use($router) {
     $router->get('/', 'BalancesController@list');
+    $router->get('/ping', 'BalancesController@ping');
     $router->get('/{symbol}', 'BalancesController@get');
 });
 

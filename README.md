@@ -5,10 +5,10 @@
 This API is a simple portfolio monitoring API for the [Binance](https://www.binance.com/) trading platform that utilizes the existing [Binance API](https://github.com/binance-exchange/binance-official-api-docs).
 User just has to provide his Binance API keys through the environment file and the API endpoints are good to go.
 
-## Installation(ubuntu)
-
 #### Pre-requisites
 - Have docker and docker-compose installed in your machine
+
+## Installation(ubuntu)
 
 1. Setup the uid of the php-fpm container to match the the host machine's user uid
 - Determine your uid
@@ -40,9 +40,13 @@ User just has to provide his Binance API keys through the environment file and t
     $ docker-compose up
     
   ```
+3. Install composer packages in app container
+  ```sh
+    $ docker-compose exec app composer install
+  ```
 
 ## Usage
-After installation is successful, the API can be accessed through the url: http://localhost:8080
+After installation and docker initialization is successful, the API can be accessed through the url: http://localhost:8080
 
 
 ## Installing composer packages

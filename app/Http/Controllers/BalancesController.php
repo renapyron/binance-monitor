@@ -19,11 +19,16 @@ class BalancesController extends Controller
     }
 
     public function list() {
+
         return $this->accountService->allBalances();
     }
 
     public function get($symbol) {
 
+    }
+
+    public function ping() {
+        return $this->accountService->ping();
     }
 
     //
