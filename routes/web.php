@@ -14,3 +14,11 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+
+
+$router->group(['prefix' => 'balances'], function() use($router) {
+    $router->get('/', 'BalancesController@list');
+    $router->get('/{symbol}', 'BalancesController@get');
+});
+

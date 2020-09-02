@@ -28,7 +28,12 @@ RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
+
+
 # Set working directory
 WORKDIR /var/www
+COPY --chown=www-data:www-data . /var/www
+# logs and storage for laravel app needs write permission
+RUN chmod -R 775 /var/www/storage
 
 USER $user

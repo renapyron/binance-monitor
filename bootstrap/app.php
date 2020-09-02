@@ -48,6 +48,19 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+$app->singleton('HttpClient', function($app) {
+    //
+    $stack = new \GuzzleHttp\HandlerStack();
+    $stack->setHandler(new \GuzzleHttp\Handler\CurlHandler());
+    $stack->push(\GuzzleHttp\Middleware::mapRequest(
+        function(\Psr\Http\Message\RequestInterface $req) {
+            return $req->withHeader('X-MBX-APIKEY', env('BINANCE_KEY'));
+        })
+    );
+
+    return new GuzzleHttp\Client(['base_uri' => 'https://api.binance.com', 'handler' => $stack]);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Register Config Files
@@ -76,9 +89,9 @@ $app->configure('app');
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -91,8 +104,7 @@ $app->configure('app');
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

@@ -1,10 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env sh
 set -e
 
-
-# first arg is `-f` or `--some-option`
-if [ "${1#-}" != "$1" ]; then
-	set -- php-fpm "$@"
-fi
-
-exec "$@"
+# chown www-data -R /var/www/storage
+echo "proj root" ${PROJECT_ROOT}
+exec php-fpm
