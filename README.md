@@ -47,15 +47,16 @@ User just has to provide his Binance API keys through the environment file and t
   
 ## Installation(Windows 10)
 
-1. create .env file by copying .env.example and set .env file with Binance API keys.
+1. create .env file by copying .env.example-win and set .env file with Binance API keys.
   ```sh
-    binance-monitor> copy .env.example .env
+    binance-monitor> copy .env.example-win .env
     binance-monitor> notepad .env
   ```
   ```
-  BINANCE_KEY=e05f5f5d-78be-4beb-bff3-4bc00c242c78
-  BINANCE_SECRET=48ea37d7-3e44-4abd-9ac9-f3b344cb7587
+  BINANCE_KEY="e05f5f5d-78be-4beb-bff3-4bc00c242c78"
+  BINANCE_SECRET="48ea37d7-3e44-4abd-9ac9-f3b344cb7587"
   ```
+<em>Pls. note that in Windows, .env variables need to be enclosed in double quotes(")  to avoid errors</em>.  
 
 2. Run the containers using the windows docker compose file
   ```sh
@@ -71,3 +72,4 @@ After installation and docker initialization is successful, the API can be acces
   ```sh
     $ docker-compose exec app composer install
   ```
+### Endpoint docs: [ENDPOINTS.md](ENDPOINTS.md)
