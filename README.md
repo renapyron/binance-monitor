@@ -25,15 +25,15 @@ User just has to provide his Binance API keys through the environment file and t
         user: admin
         uid: 1001 # <-- john uid
   ```
-- set .env file with Binance API keys, get copy from .env.example
+- create .env file by copying .env.example and set .env file with Binance API keys.
   ```sh
     $ cp .env.example .env
+    $ vim .env
   ```
   ```
   BINANCE_KEY=e05f5f5d-78be-4beb-bff3-4bc00c242c78
   BINANCE_SECRET=48ea37d7-3e44-4abd-9ac9-f3b344cb7587
   ```
-
 
 2. Run the containers
   ```sh

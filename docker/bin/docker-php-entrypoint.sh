@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 set -e
 
-# chown www-data -R /var/www/storage
-echo "proj root" ${PROJECT_ROOT}
+# always run migrations on startup
+# TODO proper mysql connection checker every 1 sec instead of waiting fixed time
+sleep 15
+php artisan migrate
+
 exec php-fpm

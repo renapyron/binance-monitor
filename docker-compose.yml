@@ -21,3 +21,19 @@ services:
     working_dir: /var/www/
     volumes:
       - ./:/var/www
+    entrypoint: /var/www/docker/bin/docker-php-entrypoint.sh
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_NAME: mysql
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - my-datavolume:/var/lib/mysql
+# stored in /var/lib/docker/volumes
+volumes:
+  my-datavolume:

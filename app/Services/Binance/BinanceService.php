@@ -1,11 +1,10 @@
 <?php
-namespace App\Services;
+namespace App\Services\Binance;
 
-use Illuminate\Support\Facades\Log;
 
-class AccountService {
-
-    private $httpClient;
+abstract class BinanceService
+{
+    protected $httpClient;
 
     public function __construct() {
         $this->httpClient = app('HttpClient');
@@ -18,36 +17,15 @@ class AccountService {
      * @param array $queryFilters
      * @return array
      */
-    private function signedQuery($queryFilters = []) {
+    protected function signedQuery($queryFilters = []) {
         $timestampMs = round(microtime(true) * 1000);
         // always required parameters: recvWindow & timestamp
         $query = $queryFilters + ['recvWindow' => '5000', 'timestamp' => $timestampMs];
         $signature = hash_hmac('sha256', http_build_query($query), env('BINANCE_SECRET'));
 
         $query['signature'] = $signature;
-        Log::info('query[]: ' . var_export($query, true));
         return $query;
     }
-
-
-
-    public function allBalances() {
-        return $this->httpClient->request(
-            'GET',
-            '/api/v3/account',
-            ['query' => $this->signedQuery() ]
-        );
-    }
-
-    public function ping() {
-        return $this->httpClient->request(
-            'GET',
-            '/api/v3/time'
-        );
-    }
-
-
-
 
 
 }

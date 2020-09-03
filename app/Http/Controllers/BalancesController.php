@@ -1,35 +1,63 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Services\AccountService;
+use App\Models\Endpoint;
+use App\Services\DB\BalanceService;
+use App\Services\DB\EndpointService;
+use Laravel\Lumen\Routing\Controller;
+use App\Services\Binance\AccountService;
 
 class BalancesController extends Controller
 {
 
-    protected $accountService;
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct(AccountService $accountService)
-    {
+    private $accountService;
+    private $endpointService;
+    private $balanceService;
+    private $accountEndpoint;
+
+    public function __construct(
+        AccountService $accountService,
+        EndpointService $endpointService,
+        BalanceService $balanceService
+    ) {
         $this->accountService = $accountService;
+        $this->endpointService = $endpointService;
+        $this->balanceService = $balanceService;
+
+        $this->accountEndpoint = new Endpoint('/api/v3/account', 'GET');
+
     }
 
     public function list() {
+        // if db data not yet stale, fetch from the db
+        if (!$this->endpointService->isStale($this->accountEndpoint)) {
+            return $this->balanceService->all();
+        }
 
-        return $this->accountService->allBalances();
+        // otherwise call Binance API and update balances table
+        $balances = $this->updateAccountBalancesData();
+
+        return $balances;
     }
 
-    public function get($symbol) {
+    public function get($asset) {
+        // if db data not yet stale, fetch from the db
+        if (!$this->endpointService->isStale($this->accountEndpoint)) {
+            return $this->balanceService->get($asset);
+        }
 
+        // otherwise call Binance API and update balances table
+        $this->updateAccountBalancesData();
+
+        return $this->balanceService->get($asset);
     }
 
-    public function ping() {
-        return $this->accountService->ping();
+    private function updateAccountBalancesData() {
+        // otherwise call Binance API and update balances table
+        $balances = $this->accountService->allBalances();
+        $this->balanceService->updateAll($balances);
+        $this->endpointService->upsertLastCall($this->accountEndpoint);
+        return $balances;
     }
 
-    //
 }
