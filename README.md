@@ -44,6 +44,23 @@ User just has to provide his Binance API keys through the environment file and t
   ```sh
     $ docker-compose exec app composer install
   ```
+  
+## Installation(Windows 10)
+
+1. create .env file by copying .env.example and set .env file with Binance API keys.
+  ```sh
+    binance-monitor> copy .env.example .env
+    binance-monitor> notepad .env
+  ```
+  ```
+  BINANCE_KEY=e05f5f5d-78be-4beb-bff3-4bc00c242c78
+  BINANCE_SECRET=48ea37d7-3e44-4abd-9ac9-f3b344cb7587
+  ```
+
+2. Run the containers using the windows docker compose file
+  ```sh
+    binance-monitor> docker-compose -f docker-compose-win.yml up
+  ```
 
 ## Usage
 After installation and docker initialization is successful, the API can be accessed through the url: http://localhost:8080
